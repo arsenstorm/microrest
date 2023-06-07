@@ -2,10 +2,12 @@ import time
 import random
 import pygame
 
+
 def play_beep():
     pygame.mixer.music.play()
     while pygame.mixer.music.get_busy():
         pygame.time.Clock().tick(10)
+
 
 # Initialize the mixer
 pygame.mixer.init()
@@ -14,7 +16,7 @@ pygame.mixer.init()
 pygame.mixer.music.load('beep.mp3')
 
 # Time between double beeps in minutes
-double_beep_interval = 30
+double_beep_interval = 2
 # Time to wait after double beeps in minutes
 wait_after_double_beep = 5
 
@@ -26,14 +28,25 @@ while True:
     elapsed_minutes = (current_time - last_double_beep_time) / 60.0
 
     if elapsed_minutes >= double_beep_interval:
+        time.sleep(10)
         print("Playing double beeps")
         play_beep()
-        time.sleep(10)
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
         play_beep()
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
 
         # Wait for 5 minutes after the double beep
         print(f"Waiting for {wait_after_double_beep} minutes")
         time.sleep(wait_after_double_beep * 60)
+
+        play_beep()
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+        play_beep()
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
 
         last_double_beep_time = time.time()
 
@@ -41,4 +54,8 @@ while True:
         time_to_wait = random.randint(110, 150)
         print(f"Waiting for {time_to_wait} seconds")
         time.sleep(time_to_wait)
+        play_beep()
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+        time.sleep(10)
         play_beep()
